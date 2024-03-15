@@ -12,7 +12,7 @@ function App() {
   }, [mp3List]);
 
   useEffect(() => {
-    playMusic();
+    Object.keys(mp3).length && playMusic();
    }, [mp3]);
 
   const toLinkedList = (data) => {
@@ -35,12 +35,11 @@ function App() {
 
   const playMusic = (mp3?: any) => {
     mp3 && setMp3(mp3);
-    audioId?.play();
+    audioId?.play()
     setPlay(true);
   };
 
   const pauseMusic = () => {
-    debugger
     audioId?.pause(); 
     setPlay(false);
   }
@@ -59,9 +58,9 @@ function App() {
       <div className="controls">
         <a href="#" className="prev mode-bg" title="上一曲" onClick={() => prevMusic()}></a>
         { !play ?
-          <a href="#" className="play mode-bg" title="播放" onClick={() => pauseMusic()}></a>
+          <a href="#" className="play mode-bg" title="播放" onClick={() => playMusic()}></a>
         :
-          <a href="#" className="pause mode-bg" title="暂停" onClick={() => playMusic()}></a>
+          <a href="#" className="pause mode-bg" title="暂停" onClick={() => pauseMusic()}></a>
         }
         <a href="#" className="next mode-bg" title="下一曲" onClick={() => { nextMusic()}}></a>
       </div>
