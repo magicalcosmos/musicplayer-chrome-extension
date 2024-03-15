@@ -1,0 +1,51 @@
+* {
+  background: #000;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  list-style: none;
+}
+#root {
+  height: 100%;
+  width: 100%;
+}
+.mode-bg {
+  background: url('@/assets/buttons.gif');
+}
+.music-player {
+  text-align: center;
+  .controls {
+    a {
+      background-position: -92px -33px;
+      display: inline-block;
+      height: 23px;
+      margin: 0 10px;
+      width: 26px;
+    }
+
+    a.play {
+      background-position: -130px -33px;
+      width: 30px;
+    }
+
+    a.pause {
+      background-position: -171px -33px;
+    }
+
+    a.next {
+      background-position: -253px -33px;   
+    }
+  }
+
+  .song-list {
+    display: inline-block;
+    text-align: left;
+    overflow: hidden;
+    width: 200px;
+  }
+  
+  .song-item {
+    padding: 5px 0;
+  }
+}
