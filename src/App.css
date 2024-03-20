@@ -1,11 +1,14 @@
 * {
-  background: #000;
-  color: #fff;
   margin: 0;
   padding: 0;
   font-size: 12px;
   list-style: none;
 }
+
+html, body {
+  background: #000;
+}
+
 #root {
   height: 100%;
   width: 100%;
@@ -15,6 +18,7 @@
 }
 .music-player {
   text-align: center;
+
   .controls {
     a {
       background-position: -92px -33px;
@@ -38,26 +42,12 @@
     }
   }
 
-  .song-list {
-    display: inline-block;
-    text-align: left;
-    overflow: hidden;
-    width: 200px;
-  }
-  
-  .song-item {
-    cursor: pointer;
-    padding: 5px 0;
-  }
   .info {
-    display: inline-block;
     width: 260px;
     height: 22px;
     color: #fff;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    margin: 0 auto;
+    padding: 2px 5px;
   }
 
   .tracks {
@@ -74,6 +64,7 @@
   }
 
   .download-bar {
+    border-radius: 5px;
     position: absolute;
     left: 0px;
     top: -1px;
@@ -85,6 +76,7 @@
     background-repeat: repeat-x;
     min-width: 2px;
     z-index: 0;
+
     .l {
       width: 3px;
       height: 7px;
@@ -105,7 +97,9 @@
       display: inline;
     }
   }
+
   .seek-bar {
+    border-radius: 5px;
     position: absolute;
     left: 0px;
     top: 0px;
@@ -122,18 +116,17 @@
       width: 4px;
       height: 7px;
       background-position: 0px -262px;
-      margin-left: -3px;
-      margin-top: -1px;
+      margin: -1px 0 0 -3px;
       font-size: 0px;
       position: relative;
       display: inline;
     }
+
     .r {
       width: 3px;
       height: 7px;
       background-position: -1px -279px;
-      margin-right: -3px;
-      margin-top: 0px;
+      margin: 0 -3px 0 0;
       font-size: 0px;
       position: absolute;
       right: 0px;
@@ -146,8 +139,24 @@
       width: 13px;
       height: 13px;
       background-position: -146px -12px;
-      margin-right: -5px;
-      margin-top: -22px;
+      margin: -22px -5px 0 0;
+    }
+  }
+
+  .song-list {
+    background: #fff;
+    border-radius: 5px;
+    text-align: left;
+    overflow: hidden;
+    overflow-y: auto;
+    height: 400px;
+    margin: 0 auto;
+    padding: 10px 0;
+    width: 260px;
+
+    .song-item {
+      cursor: pointer;
+      padding: 5px 15px;
     }
   }
 }
