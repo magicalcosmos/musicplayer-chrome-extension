@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useState } from 'react';
 import './App.css';
 
@@ -5,15 +6,13 @@ function App() {
   const audioId = document.getElementById('audioId');
   const [mp3List, setMp3List] = useState([]);
   const [mp3, setMp3] = useState({});
-  const [play, setPlay] = useState(false);
+  const [play, setPlay] = useState('');
+  const [time, setTime] = useState(0);
 
   useEffect(() => {
-   loadMp3List();
-  }, [mp3List]);
+   mp3List.length < 1 && loadMp3List();
+  }, []);
 
-  useEffect(() => {
-    Object.keys(mp3).length && playMusic();
-   }, [mp3]);
 
   const toLinkedList = (data) => {
     data.reduce((current, next) => {
@@ -28,19 +27,27 @@ function App() {
     fetch('db.json').then((response) => {
       return response.json();
     }).then((data) => {
-     toLinkedList(data);
+      toLinkedList(data);
       setMp3List(data);
+      setMp3(data[0]);
     }).catch(error => { console.log(error)});
   };
 
-  const playMusic = (mp3?: any) => {
-    mp3 && setMp3(mp3);
-    audioId?.play()
-    setPlay(true);
+  const playMusic = (newMp3?: any) => {
+    if (!newMp3 && typeof play === 'string') {
+      setMp3(mp3List[0]);
+    } else {
+      setMp3(newMp3);
+    }
+    audioId.pause();
+    setTimeout(() => {
+      audioId.play();
+      setPlay(true);
+    }, 0);
   };
 
   const pauseMusic = () => {
-    audioId?.pause(); 
+    audioId.pause();
     setPlay(false);
   }
 
@@ -51,6 +58,31 @@ function App() {
   const nextMusic = () => {
     playMusic(mp3.next);
   };
+
+  const conversion = (value) => {
+    let minute = Math.floor(value / 60);
+    minute = minute.toString().length === 1 ? ('0' + minute) : minute;
+    let second = Math.round(value % 60);
+    second = second.toString().length === 1 ? ('0' + second) : second;
+    return `${minute || '00'}:${second || '00'}`;
+  }
+
+  if (audioId) {
+    audioId.onended = () => { nextMusic() };
+    document.querySelector('.download-bar')?.addEventListener('click', function (event) {
+      let coordStart = this.getBoundingClientRect().left;
+      let coordEnd = event.pageX;
+      let p = (coordEnd - coordStart) / this.offsetWidth;
+      setTime(p.toFixed(3) * 100 + '%');
+  
+      audioId.currentTime = p * audioId.duration;
+      audioId.play();
+    })
+    audioId.addEventListener('timeupdate', (event) => {
+      const newTime = audioId.currentTime / audioId.duration.toFixed(3) * 100 + '%';
+      setTime(newTime);
+    });  
+  }
   
   return (
     <section className="music-player">
@@ -64,6 +96,27 @@ function App() {
         }
         <a href="#" className="next mode-bg" title="下一曲" onClick={() => { nextMusic()}}></a>
       </div>
+      {
+        play ? 
+        <>
+          <div className="info">
+            <div className="tracks bg">
+              <div className="download-bar bg" style={{ width: '100%'}}>
+                <div className="l bg">l</div>
+                <div className="r bg">r</div>
+              </div>
+              <div className="seek-bar bg" style={{ width: audioId ? time : '0%'}}>
+                <div className="l bg"></div>
+                <div className="r bg"></div>
+                <div className="point bg"></div>
+              </div>
+            </div>
+          </div>
+          <span>{ audioId && conversion(audioId.duration) }</span>
+          </>
+           : ''
+      }
+      <br/>
       <ul className="song-list">
         {
         mp3List.map((item, index) => {
