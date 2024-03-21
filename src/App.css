@@ -152,11 +152,15 @@ html, body {
     height: 400px;
     margin: 0 auto;
     padding: 10px 0;
-    width: 260px;
+    width: 265px;
 
     .song-item {
       cursor: pointer;
       padding: 5px 15px;
+
+      &.current {
+        color: #99CCE2;
+      }
     }
   }
 }

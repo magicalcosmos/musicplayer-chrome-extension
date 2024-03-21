@@ -16,8 +16,10 @@ function App() {
 
   const toLinkedList = (data) => {
     data.reduce((current, next) => {
-      current.next = next;
-      next.prev = current;
+      if (current) {
+        current.next = next;
+        next.prev = current;
+      }
     });
     data[0].prev = data[data.length - 1];
     data[data.length - 1].next = data[0];
@@ -120,7 +122,7 @@ function App() {
       <ul className="song-list">
         {
         mp3List.map((item, index) => {
-          return <li key={index} className="song-item" onClick={() => playMusic(item)}>{item.name}</li>
+          return <li key={index} className={mp3.url === item.url ? 'song-item current' : 'song-item'} onClick={() => playMusic(item)}>{item.name}</li>
         }
         )}
       </ul>
