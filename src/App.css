@@ -17,6 +17,7 @@ html, body {
   background: url('@/assets/buttons.gif');
 }
 .music-player {
+  padding: 20px 10px;
   text-align: center;
 
   .controls {
