@@ -122,7 +122,7 @@ function App() {
       <ul className="song-list">
         {
         mp3List.map((item, index) => {
-          return <li key={index} className={mp3.url === item.url ? 'song-item current' : 'song-item'} onClick={() => playMusic(item)}>{item.name}</li>
+          return <li key={index} className={mp3.url === item.url ? 'song-item current' : 'song-item'} onClick={() => playMusic(item)}>{index}.{item.name}</li>
         }
         )}
       </ul>
