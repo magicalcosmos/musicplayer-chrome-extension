@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const GOOGLE_ORIGIN = 'https://www.google.com';
+const GOOGLE_ORIGIN = 'https://www.shareus.cn';
 
 // Allows users to open the side panel by clicking on the action toolbar icon
 chrome.sidePanel
