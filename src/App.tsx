@@ -14,15 +14,24 @@ function App() {
   }, []);
 
 
+
   const toLinkedList = (data) => {
-    data.reduce((current, next) => {
-      if (current) {
-        current.next = next;
-        next.prev = current;
+    data.forEach((item, index) => {
+      if (index === 0) {
+        item.id = 1;
+        item.prev = data[data.length - 1];
+        item.next = data[index + 1];
+
+      } else if (index === data.length - 1) {
+        item.id = data.length;
+        item.prev = data[data.length - 2];
+        item.next = data[0];
+      } else {
+        item.id = index + 1;
+        item.prev = data[index - 1];
+        item.next = data[index + 1];
       }
     });
-    data[0].prev = data[data.length - 1];
-    data[data.length - 1].next = data[0];
   };
 
   const loadMp3List = () => {
@@ -42,9 +51,19 @@ function App() {
       setMp3(newMp3);
     }
     audioId.pause();
-    setTimeout(() => {
+    const timeout = setTimeout(() => {      
+      const songListId = document.getElementById('songListId');
+      const songListHeight = songListId.getBoundingClientRect().height;
+      const startScrollPoint = Math.floor(songListHeight / (24));
+      if ((newMp3 || mp3)['id']  > startScrollPoint) {
+        songListId.scrollTo({
+          top: (newMp3 || mp3)['id'] * 24 - 20,
+          behavior: 'smooth',
+        });
+      }
       audioId.play();
       setPlay(true);
+      clearTimeout(timeout);
     }, 0);
   };
 
@@ -89,40 +108,41 @@ function App() {
   return (
     <section className="music-player">
       <audio id="audioId" src={mp3.url} className="audio-class"></audio>
-      <div className="controls">
-        <a href="#" className="prev mode-bg" title="上一曲" onClick={() => prevMusic()}></a>
-        { !play ?
-          <a href="#" className="play mode-bg" title="播放" onClick={() => playMusic()}></a>
-        :
-          <a href="#" className="pause mode-bg" title="暂停" onClick={() => pauseMusic()}></a>
-        }
-        <a href="#" className="next mode-bg" title="下一曲" onClick={() => { nextMusic()}}></a>
-      </div>
-      {
-        play ? 
-        <>
-          <div className="info">
-            <div className="tracks bg">
-              <div className="download-bar bg" style={{ width: '100%'}}>
-                <div className="l bg">l</div>
-                <div className="r bg">r</div>
-              </div>
-              <div className="seek-bar bg" style={{ width: audioId ? time : '0%'}}>
-                <div className="l bg"></div>
-                <div className="r bg"></div>
-                <div className="point bg"></div>
+      <section className="player">
+        <div className="controls">
+          <a href="#" className="prev mode-bg" title="上一曲" onClick={() => prevMusic()}></a>
+          { !play ?
+            <a href="#" className="play mode-bg" title="播放" onClick={() => playMusic()}></a>
+          :
+            <a href="#" className="pause mode-bg" title="暂停" onClick={() => pauseMusic()}></a>
+          }
+          <a href="#" className="next mode-bg" title="下一曲" onClick={() => { nextMusic()}}></a>
+        </div>
+        {
+          play ? 
+          <>
+            <div className="info">
+              <div className="tracks bg">
+                <div className="download-bar bg" style={{ width: '100%'}}>
+                  <div className="l bg">l</div>
+                  <div className="r bg">r</div>
+                </div>
+                <div className="seek-bar bg" style={{ width: audioId ? time : '0%'}}>
+                  <div className="l bg"></div>
+                  <div className="r bg"></div>
+                  <div className="point bg"></div>
+                </div>
               </div>
             </div>
-          </div>
-          <span>{ audioId && conversion(audioId.duration) }</span>
-          </>
-           : ''
-      }
-      <br/>
-      <ul className="song-list">
+            <span>{ audioId && conversion(audioId.duration) }</span>
+            </>
+            : ''
+        }
+      </section>
+      <ul className="song-list" id="songListId">
         {
         mp3List.map((item, index) => {
-          return <li key={index} className={mp3.url === item.url ? 'song-item current' : 'song-item'} onClick={() => playMusic(item)}>{index}.{item.name}</li>
+          return <li key={index} title={item.name} className={mp3.url === item.url ? 'song-item current' : 'song-item'} onClick={() => playMusic(item)}>{item.id}. {item.name}</li>
         }
         )}
       </ul>

@@ -17,9 +17,20 @@ html, body {
   background: url('@/assets/buttons.gif');
 }
 .music-player {
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
   padding: 20px 10px;
   text-align: center;
-
+  .player {
+    background: #000;
+    position: fixed;
+    padding-top: 20px;
+    bottom: 0;
+    height: 71px;
+    width: 100%;
+    z-index: 9999;
+  }
   .controls {
     a {
       background-position: -92px -33px;
@@ -150,16 +161,31 @@ html, body {
     text-align: left;
     overflow: hidden;
     overflow-y: auto;
-    height: 400px;
-    margin: 0 auto;
-    padding: 10px 0;
-    width: 265px;
+    height: calc(100% - 123px);
+    margin-left: 20px;
+    top: 20px;
+    position: fixed;
+    padding: 10px 0 150px 0;
+    width: calc(100% - 40px);
+    z-index: 10;
 
     .song-item {
+      height: 24px;
+      line-height: 24px;
       cursor: pointer;
-      padding: 5px 15px;
+      padding: 0 15px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
 
       &.current {
+        background: #f2f2f2;
+        color: #99CCE2;
+        font-weight: bold;
+      }
+
+      &:hover {
+        background: #f2f2f2;
         color: #99CCE2;
       }
     }
