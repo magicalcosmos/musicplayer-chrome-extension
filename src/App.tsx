@@ -118,26 +118,22 @@ function App() {
           }
           <a href="#" className="next mode-bg" title="下一曲" onClick={() => { nextMusic()}}></a>
         </div>
-        {
-          play ? 
-          <>
-            <div className="info">
-              <div className="tracks bg">
-                <div className="download-bar bg" style={{ width: '100%'}}>
-                  <div className="l bg">l</div>
-                  <div className="r bg">r</div>
-                </div>
-                <div className="seek-bar bg" style={{ width: audioId ? time : '0%'}}>
-                  <div className="l bg"></div>
-                  <div className="r bg"></div>
-                  <div className="point bg"></div>
-                </div>
-              </div>
+
+        <div className="info">
+          <div className="tracks bg">
+            <div className="download-bar bg" style={{ width: '100%'}}>
+              <div className="l bg">l</div>
+              <div className="r bg">r</div>
             </div>
-            <span>{ audioId && conversion(audioId.duration) }</span>
-            </>
-            : ''
-        }
+            <div className="seek-bar bg" style={{ width: audioId ? time : '0%'}}>
+              <div className="l bg"></div>
+              <div className="r bg"></div>
+              <div className="point bg"></div>
+            </div>
+          </div>
+        </div>
+        <span>{ audioId && conversion(audioId.duration) }</span>
+
       </section>
       <ul className="song-list" id="songListId">
         {
