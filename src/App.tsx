@@ -45,8 +45,8 @@ function App() {
   };
 
   const playMusic = (newMp3?: any) => {
-    if (!newMp3 && typeof play === 'string') {
-      setMp3(mp3List[0]);
+    if (!newMp3) {
+      setMp3(mp3);
     } else {
       setMp3(newMp3);
     }
